@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String
+  created_at DateTime  @default(now())
+  role       Role      @default(USER)
+  process    Process[]
+}
+
+model Area {
+  id         String       @id @default(uuid())
+  name       String       @unique
+  Process    Process[]
+  Subprocess Subprocess[]
+}
+
+model Process {
+  id            String        @id @default(uuid())
+  name          String
+  description   String
+  id_user       String?
+  id_area       String?
+  system_used   String?
+  documentation String
+  created_at    DateTime      @default(now())
+  Subprocess    Subprocess[]
+  Responsible   Responsible[]
+  Area          Area?         @relation(fields: [id_area], references: [id])
+  User          User?         @relation(fields: [id_user], references: [id])
+}
+
+model Subprocess {
+  id               String        @id @default(uuid())
+  name             String
+  description      String
+  id_process       String?
+  id_area          String?
+  system_used      String?
+  documentation    String
+  Responsible      Responsible[]
+  created_at       DateTime      @default(now())
+  Area             Area?         @relation(fields: [id_area], references: [id])
+  Process          Process?      @relation(fields: [id_process], references: [id])
+  Subprocess       Subprocess[]  @relation("subprocess_filho")
+  Subprocess_filho Subprocess?   @relation("subprocess_filho", fields: [subprocessId], references: [id])
+  subprocessId     String?
+}
+
+model Responsible {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  Process      Process?    @relation(fields: [processId], references: [id])
+  processId    String?
+  Subprocess   Subprocess? @relation(fields: [subprocessId], references: [id])
+  subprocessId String?
+}
