@@ -54,6 +54,7 @@ export default function useAuth() {
         
             const tokenUser = decodeToken<Token>(response.data);
             localStorage.setItem('token', JSON.stringify(response.data));
+            api.defaults.headers.Authorization = `Bearer ${response.data}`;
             setUse(tokenUser);
             setAuthenticated(true);
             navigate('/home');
@@ -63,10 +64,11 @@ export default function useAuth() {
     }
 
     function handleLogout() {
+        console.log('logged out')
         setAuthenticated(false);
         localStorage.removeItem('token');
         api.defaults.headers.Authorization = '';
-        window.location.href="/"
+        navigate("/")
     }
 
    

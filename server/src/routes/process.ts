@@ -9,7 +9,6 @@ export async function processRoutes(app:FastifyInstance){
 
   // GET ALL PROCESS
   app.get('/process', async (req)=>{
-    console.log(req)
     await req.jwtVerify()
     const {sub} = req.user
     const process = await prisma.process.findMany({
@@ -95,6 +94,7 @@ export async function processRoutes(app:FastifyInstance){
 
   //GET PROCESSS BY ID
   app.get('/process/:id', async (req, res)=>{
+    console.log(req)
     await req.jwtVerify()
 
     const {sub} = req.user

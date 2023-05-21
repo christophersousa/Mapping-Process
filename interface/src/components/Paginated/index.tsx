@@ -4,7 +4,7 @@ import { CardProcess } from "../CardProcess";
 import { PropsPaginated } from "../../interfaces/Process";
 
 
-export function Paginated({ itemsPerPage, cardsProcessed }:PropsPaginated) {
+export function Paginated({ itemsPerPage, cardsProcessed, handleClick }:PropsPaginated) {
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState<number>(0);
@@ -35,7 +35,8 @@ export function Paginated({ itemsPerPage, cardsProcessed }:PropsPaginated) {
             id={response.id}
             name={response.name}
             documentation={response.documentation}
-            diff_days={response.diff_days}
+            diffd_ays={response.diffd_ays}
+            handleClick={handleClick}
           />
         ))}
       <ReactPaginate

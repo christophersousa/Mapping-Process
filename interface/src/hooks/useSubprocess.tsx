@@ -1,9 +1,9 @@
 import api from "../lib/api";
 
-export default function useProcess(){
-  async function getProcess(){
+export default function useSubprocess(){
+  async function getSubprocess(){
     try {
-      const response = await api.get('/process', {
+      const response = await api.get('/subprocess', {
       headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': true,
@@ -17,9 +17,9 @@ export default function useProcess(){
     }
   }
 
-  async function getProcessById(id: string){
+  async function getSubprocessById(id: string){
     try {
-      const response = await api.get(`/process/${id}`, {
+      const response = await api.get(`/subprocess/${id}`, {
       headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': true,
@@ -34,5 +34,5 @@ export default function useProcess(){
     }
   }
 
-  return {getProcess, getProcessById}
+  return {getSubprocess, getSubprocessById}
 }

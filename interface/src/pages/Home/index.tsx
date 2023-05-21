@@ -6,11 +6,24 @@ import { Paginated } from "../../components/Paginated";
 import { PropsProcess } from "../../interfaces/Process";
 import { Menu } from "../../components/Menu";
 
+const menu_label = {
+  title: "Mapping Process",
+  text: "Prioritize your processes and have better control of your activities",
+  text_button: "Register"
+}
 
 export function Home(){
   const [process, setProcess] = useState<PropsProcess[]>([])
-  const {use} = useContext(Context)
+  const {getProcessId} = useContext(Context)
   const {getProcess} = useProcess()
+
+  async function handleClick(id: string){
+    try {
+     await getProcessId(id)
+    } catch (error:any) {
+      alert(error.message)
+    }
+  }
 
   async function getData(){
 
@@ -29,7 +42,12 @@ export function Home(){
   return (
     <div className="flex">
       {/* Menu */}
-        <Menu/>
+        <Menu
+          title={menu_label.title}
+          text={menu_label.text}
+          text_button={menu_label.text_button}
+          type_interaction="register"
+        />
       {/* List process */}
       <div className="flex flex-col items-center h-screen w-screen gap-6 pt-14">
           <div className="flex flex-col items-center gap-2 w-1/2">
@@ -68,6 +86,7 @@ export function Home(){
             <Paginated
               itemsPerPage={3}
               cardsProcessed={process}
+              handleClick={handleClick}
             />
           </div>
           
