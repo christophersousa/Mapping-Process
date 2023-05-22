@@ -19,7 +19,7 @@ This application is responsible for managing the entire backend of the Process M
 I chose Node.js to develop a server because it offers speed, efficiency, scalability, a vast library of modules, and an active community, making it a solid choice for your server needs.
 
 
-# How to run the projext
+# How to run the project
 
 prerequisites: 
 - NodeJs LTS
