@@ -8,7 +8,6 @@ import useSubprocess from "../../hooks/useSubprocess"
 import { useSearchParams } from "react-router-dom"
 import useProcess from "../../hooks/useProcess"
 import { passedDate } from "../../util/util"
-import { ToastContainer, toast } from "react-toastify"
 import Popup from "../../components/Popup"
 
 
@@ -28,7 +27,7 @@ export function Process(){
   //Click in card of subprocess
   async function handleClick(id: string){
     try {
-     await getSubprocessId(id, 'subprocess')
+      await getSubprocessId(id, 'subprocess')
     } catch (error:any) {
       alert(error.message)
     }
@@ -75,23 +74,23 @@ export function Process(){
   }
 
   useEffect( () => {
-    if(!modalIsOpen){
-      if(params == 'process'){
+    if(!modalIsOpen || !modalUpdateIsOpen){
+      if(searchParams.get('title') == 'process'){
         const response = getProcessById(readProcess?.id ?? '' ).then((process) =>{
           setReadProcess(process)
         })
       }
-      }else{
+      }else if(searchParams.get('title') == 'subprocess'){
         const response = getSubprocessById(readProcess?.id ?? '' ).then((process) =>{
           setReadProcess(process)
         })
       }
-  },[modalIsOpen])
+  },[modalIsOpen, modalUpdateIsOpen])
 
   useEffect(()=>{
     readGetProcess()
-    setParams(searchParams.get('title')) 
-  },[])
+    setParams(searchParams.get('title'))
+  },[process])
 
   return(
     <div className="flex">

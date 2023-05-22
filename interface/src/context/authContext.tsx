@@ -37,6 +37,7 @@ function AuthProvider({ children }: IRouterContextProps) {
   const navigate = useNavigate()
 
   async function getProcessId(id: string, title: string){
+      
       try {
         const response = await getProcessById(id)
         setProcess(response)
@@ -47,8 +48,8 @@ function AuthProvider({ children }: IRouterContextProps) {
             title: title
           }).toString()
         })
-      } catch (error) {
-        console.log(error)
+      } catch (error:any) {
+        throw Error(error.message)
       }
   }
 
@@ -63,8 +64,8 @@ function AuthProvider({ children }: IRouterContextProps) {
             title: title
           }).toString()
         })
-      } catch (error) {
-        console.log(error)
+      } catch (error:any) {
+        throw Error(error.message)
       }
   }
 

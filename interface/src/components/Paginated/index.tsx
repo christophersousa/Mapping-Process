@@ -13,16 +13,12 @@ export function Paginated({ itemsPerPage, cardsProcessed, handleClick }:PropsPag
   // (This could be items from props; or items loaded in a local state
   // from an API endpoint with useEffect and useState)
   const endOffset = itemOffset + itemsPerPage;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const currentItems = cardsProcessed.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(cardsProcessed.length / itemsPerPage);
 
   // Invoke when user click to request another page.
   const handlePageClick = (event:any) => {
     const newOffset = (event.selected * itemsPerPage) % cardsProcessed.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     setItemOffset(newOffset);
   };
 
