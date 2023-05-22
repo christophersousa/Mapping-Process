@@ -20,9 +20,9 @@ export function Process(){
   const [params, setParams] = useState<string|null>()
   const [showModal, setShowModal] = useState(false);
 
-  const {process, getSubprocessId, getProcessId} = useContext(Context)
+  const {process, getSubprocessId} = useContext(Context)
   const{handleRegisterSubprocess, handleUpdateSubprocess, deleteSubprocess} = useSubprocess()
-  const {handleUpdateProcess, deleteProcess} = useProcess()
+  const {handleUpdateProcess, deleteProcess, getProcessById} = useProcess()
   const [searchParams] = useSearchParams()
 
   //Click in card of subprocess
@@ -73,6 +73,15 @@ export function Process(){
   function closeUpdateModal() {
     setUpdateIsOpen(false);
   }
+
+  useEffect( () => {
+    if(!modalIsOpen){
+      const response = getProcessById(readProcess?.id ?? '' ).then((process) =>{
+        console.log(response)
+        setReadProcess(process)
+      })
+    }
+  },[modalIsOpen])
 
   useEffect(()=>{
     readGetProcess()
