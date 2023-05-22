@@ -27,7 +27,7 @@ prerequisites:
 
 ```bash
 # Database create
-> Folder: src/docker
+# Folder: src/docker
 docker-compose up
 
 # Tables create
