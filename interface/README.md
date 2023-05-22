@@ -1,37 +1,28 @@
-# Mapping Process platform server
+# Mapping Process platform interface
 
 ## About Server
 
-This application is responsible for managing the entire backend of the Process Mapping platform, using business rules and simple processes for this purpose.
+This application is responsible for demonstrating the user interface in a practical and effective way, so that the user feels at ease and without the need for a great knowledge of technology.
 
 # Technologies used
-## Back-end
-- Nodejs (Framework)
+## Fron-end
+- ReactJS (Framework)
 - TypeScript (Language)
-- Primsa (ORM)
-
-## Database
-- Docker (PostgreSQL)
+- Tailwind (Framework CSS)
 
 
-## Why NodeJs ?
 
-I chose Node.js to develop a server because it offers speed, efficiency, scalability, a vast library of modules, and an active community, making it a solid choice for your server needs.
+## Why ReactJS ?
+
+I chose React.js to implement the front end because it offers efficiency, performance, component reuse, active community, and flexibility for integration with other technologies. These aspects make React.js a solid choice for creating modern and interactive user interfaces.
 
 
-# Como executar o projeto
+# How to run the project
 
 prerequisites: 
 - NodeJs LTS
-- Docker
 
 ```bash
-# Database create
-> Folder: src/docker
-docker-compose up
-
-# Tables create
-npm migrate dev
 
 # Run aplication
 npm run dev
