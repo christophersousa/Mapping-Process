@@ -13,6 +13,9 @@ This application is responsible for managing the entire backend of the Process M
 ## Database
 - Docker (PostgreSQL)
 
+## Diagram
+![Alt Diagram](image ".asserts/Mapping-process-diagram.png")
+
 
 ## Why NodeJs ?
 
