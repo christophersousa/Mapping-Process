@@ -9,9 +9,9 @@
 # :pushpin: Mapping Process
 
 - Mapping Process 
-  - [Server in Nodejs](#one)
+  - [Server in Nodejs](#server)
     - [Nodejs](#nodejs)
-  - [Interface in ReactJS](#two)
+  - [Interface in ReactJS](#front_end)
     - [React](#react)
 - [Develop](#develop)
 
@@ -24,7 +24,7 @@
 >I chose Node.js to develop a server because it offers speed, efficiency, scalability, a vast library of modules, and an active community, making it a solid choice for your server needs.
 
 <p align="center">
-  <a href="https://github.com/christophersousa/Mappping-Process/tree/main/server">
+  <a href="https://github.com/christophersousa/Mapping-Process/tree/main/server">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="120"/>
    </a>
 </p>
