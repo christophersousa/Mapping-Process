@@ -3,15 +3,27 @@ import { Context } from "../../context/authContext"
 import { PropsDataProcess } from "../../interfaces/Process"
 import { Menu } from "../../components/Menu"
 import { Paginated } from "../../components/Paginated"
+import { RegisterProcess } from "../../components/RegisterProcess"
+import useSubprocess from "../../hooks/useSubprocess"
+import { useSearchParams } from "react-router-dom"
+import useProcess from "../../hooks/useProcess"
 
 
 export function Process(){
   const [readProcess, setReadProcess] = useState<PropsDataProcess>()
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false)
+  const [modalUpdateIsOpen, setUpdateIsOpen] = useState<boolean>(false)
+  const [params, setParams] = useState<string|null>()
   const {process, getSubprocessId} = useContext(Context)
+  const{handleRegisterSubprocess, handleUpdateSubprocess} = useSubprocess()
+  const {handleUpdateProcess} = useProcess()
+  const [searchParams] = useSearchParams()
+
+  console.log(params)
 
   async function handleClick(id: string){
     try {
-     await getSubprocessId(id)
+     await getSubprocessId(id, 'subprocess')
     } catch (error:any) {
       alert(error.message)
     }
@@ -19,7 +31,6 @@ export function Process(){
 
   function readGetProcess(){
     setReadProcess(process)
-    console.log(readProcess)
   }
 
   function passedDate(date: string){
@@ -28,16 +39,41 @@ export function Process(){
     })
   }
 
+  // Function Open modal
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function openModalUpdate() {
+    setUpdateIsOpen(true);
+  }
+
+  // Function close modal
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function closeUpdateModal() {
+    setUpdateIsOpen(false);
+  }
+
   useEffect(()=>{
     readGetProcess()
+    setParams(searchParams.get('title'))
   },[process])
 
   return(
     <div className="flex">
       {/* List process */}
-      <div className="flex flex-col items-center h-screen w-screen gap-6 pt-14 overflow-y-scroll scrollbar-hide">
+      <div className="flex flex-col items-center h-screen w-screen gap-6 pt-14 overflow-y-scroll scrollbar-hide relative">
+          <span 
+            className=" absolute right-5 text-xl cursor-pointer" 
+            title="Edit"
+            onClick={()=>openModalUpdate()}
+            >
+              📝
+            </span>
           <div className="flex flex-col items-center gap-2 w-1/2">
-              <h1 className="font-bold text-violet-500 text-4xl">{readProcess?.name}</h1>              
+              <h1 className="font-bold text-center text-violet-500 text-4xl">{readProcess?.name}</h1>              
           </div>
           <div className=" flex flex-col gap-4 px-12 py-6 w-full h-full">
             <h1 className="text-slate-600">Published {passedDate(readProcess?.created_at||'')}</h1>
@@ -51,7 +87,7 @@ export function Process(){
             </div>
             <div className="flex flex-col gap-6">
               <h1 className="font-bold text-xl">Responsable:</h1>
-              <div className="px-10 text-slate-600">
+              <div className="px-10 text-slate-600 flex gap-4">
                 {readProcess?.Responsible?.map((response, index)=>(
                   <span key={index} className="font-semibold py-2 px-4 bg-gray-100 rounded capitalize">{response.name}</span>
                 ))}
@@ -90,8 +126,37 @@ export function Process(){
           text={readProcess?.description || ''}
           text_button="Register subprocess"
           type_interaction="home"
+          openModal={openModal}
         />
-      
+
+        {/* Model */}
+        <RegisterProcess
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          resgisterProcess={handleRegisterSubprocess}
+          tag="subprocess"
+          id={readProcess?.id}
+        />
+
+        {/* Modal Update */}
+        {params == 'process' ? (
+          <RegisterProcess
+          modalIsOpen={modalUpdateIsOpen}
+          closeModal={closeUpdateModal}
+          resgisterProcess={handleUpdateProcess}
+          tag="process"
+          data={readProcess}
+        />
+        ):(
+          <RegisterProcess
+          modalIsOpen={modalUpdateIsOpen}
+          closeModal={closeUpdateModal}
+          resgisterProcess={handleUpdateSubprocess}
+          tag="subprocess"
+          id={readProcess?.id_process}
+          data={readProcess}
+        />
+        )}
     </div>
   )
 }

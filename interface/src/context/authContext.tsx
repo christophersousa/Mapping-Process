@@ -23,8 +23,8 @@ interface ProposContext {
   handleLogin: (data: PropsLoginUser) => Promise<void>;
   handleLogout: () => void;
   process: PropsDataProcess | undefined;
-  getProcessId: (id: string) => void;
-  getSubprocessId: (id: string) => void;
+  getProcessId: (id: string, title: string) => void;
+  getSubprocessId: (id: string, title: string) => void;
 }
 
 const Context = createContext({} as ProposContext);
@@ -36,14 +36,15 @@ function AuthProvider({ children }: IRouterContextProps) {
   const {getSubprocessById} = useSubprocess()
   const navigate = useNavigate()
 
-  async function getProcessId(id: string){
+  async function getProcessId(id: string, title: string){
       try {
         const response = await getProcessById(id)
         setProcess(response)
         navigate({
           pathname: "/process",
           search: createSearchParams({
-            id: response.id
+            id: response.id,
+            title: title
           }).toString()
         })
       } catch (error) {
@@ -51,14 +52,15 @@ function AuthProvider({ children }: IRouterContextProps) {
       }
   }
 
-    async function getSubprocessId(id: string){
+    async function getSubprocessId(id: string, title: string){
       try {
         const response = await getSubprocessById(id)
         setProcess(response)
         navigate({
           pathname: "/process",
           search: createSearchParams({
-            id: response.id
+            id: response.id,
+            title: title
           }).toString()
         })
       } catch (error) {

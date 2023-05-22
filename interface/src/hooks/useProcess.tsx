@@ -1,4 +1,6 @@
+import { PropsSendDataProcess } from "../interfaces/Process";
 import api from "../lib/api";
+import { capitalize } from "../util/util";
 
 export default function useProcess(){
   async function getProcess(){
@@ -34,5 +36,48 @@ export default function useProcess(){
     }
   }
 
-  return {getProcess, getProcessById}
+  async function handleRegisterProcess(data:PropsSendDataProcess) {
+    console.log(data.name)
+    try {
+        const response = await api.post('/process', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': true,
+        },
+          name: capitalize(data.name),  
+          description: data.description,
+          documentation: data.documentation,
+          system_used: data.system_used,
+          name_area: data.name_area,
+          responsibles: data.responsibles
+        });
+    
+        return response
+      } catch (error:any) {
+        throw new Error(error.message);
+      }
+  }
+
+  async function handleUpdateProcess(data:PropsSendDataProcess) {
+    try {
+      const response = await api.put(`/process/${data.id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': true,
+        },
+          name: capitalize(data.name),  
+          description: data.description,
+          documentation: data.documentation,
+          system_used: data.system_used,
+          name_area: data.name_area,
+          responsibles: data.responsibles
+        });
+    
+        return response
+      } catch (error:any) {
+        throw new Error(error.message);
+      }
+  }
+
+  return {getProcess, getProcessById, handleRegisterProcess, handleUpdateProcess}
 }

@@ -188,7 +188,8 @@ export async function subprocessRoutes(app:FastifyInstance){
   })
 
   //UPDATE SUBPROCESS
-  app.put('/subprocess/:id_subprocess', async (req) => {
+  app.put('/subprocess/:id', async (req) => {
+    console.log(req.body)
     await req.jwtVerify()
     const bodySchema = z.object({
       name: z.string(),
@@ -197,7 +198,6 @@ export async function subprocessRoutes(app:FastifyInstance){
       system_used: z.string(),
       name_area: z.string(),
       id_process: z.string(),
-      id_subprocess: z.string(),
       responsibles: z.array(z.string())
     })
     const paramsSchema = z.object({
@@ -211,7 +211,6 @@ export async function subprocessRoutes(app:FastifyInstance){
       documentation, 
       system_used,
       id_process,
-      id_subprocess,
       name_area,
       responsibles} = bodySchema.parse(req.body)
     

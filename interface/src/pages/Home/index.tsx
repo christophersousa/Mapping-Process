@@ -5,6 +5,7 @@ import useProcess from "../../hooks/useProcess";
 import { Paginated } from "../../components/Paginated";
 import { PropsProcess } from "../../interfaces/Process";
 import { Menu } from "../../components/Menu";
+import { RegisterProcess } from "../../components/RegisterProcess";
 
 const menu_label = {
   title: "Mapping Process",
@@ -15,11 +16,24 @@ const menu_label = {
 export function Home(){
   const [process, setProcess] = useState<PropsProcess[]>([])
   const {getProcessId} = useContext(Context)
-  const {getProcess} = useProcess()
+  const {getProcess, handleRegisterProcess} = useProcess()
+
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+
+  // Function Open modal
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  // Function close modal
+  function closeModal() {
+    setIsOpen(false);
+  }
+
 
   async function handleClick(id: string){
     try {
-     await getProcessId(id)
+     await getProcessId(id, "process")
     } catch (error:any) {
       alert(error.message)
     }
@@ -46,7 +60,8 @@ export function Home(){
           title={menu_label.title}
           text={menu_label.text}
           text_button={menu_label.text_button}
-          type_interaction="register"
+          type_interaction="exit"
+          openModal={openModal}
         />
       {/* List process */}
       <div className="flex flex-col items-center h-screen w-screen gap-6 pt-14">
@@ -87,10 +102,17 @@ export function Home(){
               itemsPerPage={3}
               cardsProcessed={process}
               handleClick={handleClick}
+              
             />
           </div>
-          
       </div>
+      {/* Modal */}
+      <RegisterProcess
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        resgisterProcess={handleRegisterProcess}
+        tag="process"
+      />
     </div>
   )
 }

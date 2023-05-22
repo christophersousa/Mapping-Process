@@ -8,6 +8,7 @@ export interface PropsProcess{
 
 export interface PropsDataProcess{
   id: string;
+  id_process: string;
   name: string;
   documentation: string;
   description: string;
@@ -30,4 +31,27 @@ export interface PropsPaginated{
   itemsPerPage: number;
   cardsProcessed: PropsProcess[];
   handleClick: (id: string) => Promise<void>;
+}
+
+export interface PropsSendDataProcess{
+  id: string;
+  name: string;
+  documentation: string;
+  description: string;
+  created_at: string;
+  system_used: string;
+  responsibles: string[];
+  name_area: string;
+}
+
+export interface PropsSendDataSubprocess{
+  id: string;
+  id_process: string;
+  name: string;
+  documentation: string;
+  description: string;
+  created_at: string;
+  system_used: string;
+  responsibles: string[];
+  name_area: string;
 }

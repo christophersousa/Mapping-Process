@@ -8,9 +8,10 @@ interface PropsMenu{
   text: string;
   text_button: string;
   type_interaction: string;
+  openModal: ()=>void;
 }
 
-export function Menu({title, text, text_button, type_interaction}:PropsMenu){
+export function Menu({title, text, text_button, type_interaction, openModal}:PropsMenu){
 
   const navigate = useNavigate()
 
@@ -23,13 +24,13 @@ export function Menu({title, text, text_button, type_interaction}:PropsMenu){
   return(
       <div className="flex flex-col items-center justify-center w-2/5 bg-violet-500 h-screen gap-4">
           <img src={Logo} alt="Logo" />
-          <h1 className="font-bold text-white text-4xl">{title}</h1>
-          <p className="font-semibold italic text-white">{text}</p>
+          <h1 className="font-bold text-white text-center text-2xl">{title}</h1>
+          <p className="font-semibold italic text-white text-center">{text}</p>
           <button
             className="py-3 px-6 bg-transparent rounded-full text-center 
             text-white font-bold uppercase ring-2 ring-white active:scale-110 
             transition-transform ease-in mt-4"
-            
+            onClick={()=>openModal()}
           >
           {text_button}
         </button>
