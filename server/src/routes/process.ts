@@ -15,6 +15,9 @@ export async function processRoutes(app:FastifyInstance){
       where:{
         id_user: sub,
       },
+      orderBy:{
+        created_at: 'desc'
+      },
       select:{
         id: true,
         name: true,

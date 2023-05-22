@@ -1,14 +1,34 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import { Alert } from "../Alert";
+import { ToastContainer, toast } from "react-toastify";
 
-type RegistrationStatus = 'success' | 'error' | 'idle'
+
 
 export function SignupForm(){
-  const [status, setStatus] = useState<RegistrationStatus>('idle');
 
   const {handleRegisterUser} = useAuth()
+
+  const notifySucess = () => toast.success('Successfully registered user.', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+
+    const notifyError = (name: string) => toast.error(`🚨 Sorry, ${name}.`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
 
   const {
     handleSubmit,
@@ -22,9 +42,9 @@ export function SignupForm(){
   const onSubmit = async (data: any) => {
     try {
       await handleRegisterUser(data)
-      setStatus('success')
+      notifySucess()
     } catch (error:any) {
-      setStatus('error')
+      notifyError(error)
     }
   };
 
@@ -34,7 +54,6 @@ export function SignupForm(){
         <div className="p-8 flex-1">
           <div className="mx-auto overflow-hidden">
             <div className="p-8">
-              <Alert status={status}/>
               <h1 className="text-5xl font-bold text-indigo-600">
                 Create account
               </h1>
@@ -99,6 +118,18 @@ export function SignupForm(){
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
     </div>
   );
 }

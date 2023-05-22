@@ -1,14 +1,32 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import { Alert } from "../Alert";
+import { ToastContainer, toast } from "react-toastify";
 
-type RegistrationStatus = 'success' | 'error' | 'idle'
 
 export function SigninForm(){
-  const [status, setStatus] = useState<RegistrationStatus>('idle');
-
   const {handleLogin} = useAuth()
+
+  const notifySucess = () => toast.success('Login successful.', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+
+    const notifyError = (name: string) => toast.error(`🚨 Sorry, ${name}.`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
 
   const {
     handleSubmit,
@@ -21,9 +39,9 @@ export function SigninForm(){
   const onSubmit = async (data: any) => {
     try {
       await handleLogin(data)
-      setStatus('success')
+      notifySucess()
     } catch (error:any) {
-      setStatus('error')
+      notifyError('error')
     }
   };
   return(
@@ -32,7 +50,6 @@ export function SigninForm(){
         <div className="p-8 flex-1">
           <div className="mx-auto overflow-hidden">
             <div className="p-8">
-              <Alert status={status} message="Your access request failed. Incorrect email or passwords."/>
               <h1 className="text-3xl font-bold text-indigo-600 mt-2">
                 Welcome to the Mapping Process!
               </h1>
@@ -79,6 +96,19 @@ export function SigninForm(){
           </div>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
     </div>
   );
 }

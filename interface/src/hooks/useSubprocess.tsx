@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { PropsSendDataSubprocess } from "../interfaces/Process";
 import api from "../lib/api";
 import { capitalize } from "../util/util";
 
 export default function useSubprocess(){
+
+  const navigate = useNavigate()
+
   async function getSubprocess(){
     try {
       const response = await api.get('/subprocess', {
@@ -37,7 +41,6 @@ export default function useSubprocess(){
   }
 
   async function handleRegisterSubprocess(data:PropsSendDataSubprocess) {
-    console.log(data.name)
     try {
         const response = await api.post('/subprocess', {
         headers: {
@@ -81,5 +84,21 @@ export default function useSubprocess(){
       }
   }
 
-  return {getSubprocess, getSubprocessById, handleRegisterSubprocess, handleUpdateSubprocess}
+  async function deleteSubprocess(id:string){
+    try {
+      const response = await api.delete(`/subprocess/${id}`, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': true,
+      }
+      });
+
+      navigate('/home')
+
+    } catch (error) {
+      throw new Error("email or password are incorrect.");
+    }
+  }
+
+  return {getSubprocess, getSubprocessById, handleRegisterSubprocess, handleUpdateSubprocess, deleteSubprocess}
 }

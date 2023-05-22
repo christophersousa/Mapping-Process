@@ -4,6 +4,7 @@ import { PropsDataProcess, PropsSendDataSubprocess } from "../../interfaces/Proc
 import { capitalize } from "../../util/util";
 
 import { WithContext as ReactTags } from 'react-tag-input';
+import { ToastContainer, toast } from "react-toastify";
 
 interface PropsTag{
   id:string;
@@ -29,6 +30,29 @@ export function FormSubprocess({id_process, resgisterProcess, data}:PropsForm){
     setTags([...tags, tag]);
   };
 
+  // function opne toast
+  const notifySucess = () => toast.success('Process created successfully.', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+
+    const notifyError = () => toast.error('🚨 Sorry, could not delete.', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      });
+
   const {
     handleSubmit,
     register,
@@ -50,9 +74,9 @@ export function FormSubprocess({id_process, resgisterProcess, data}:PropsForm){
     try {
       data.responsibles = tags.map((response) => capitalize(response.text))
       const response = await resgisterProcess(data);
-      alert('success')
+      notifySucess()
     } catch (error:any) {
-      alert('error')
+      notifyError()
     }
   };
 
@@ -191,6 +215,19 @@ export function FormSubprocess({id_process, resgisterProcess, data}:PropsForm){
                   value="Rigister"
                   className="mt-10 px-8 py-4 uppercase rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-center block w-full focus:outline-none focus:ring focus:ring-offset-2 focus:ring-indigo-500 focus:ring-opacity-80 cursor-pointer"
                 />
+
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                  />
               </form>
   )
 }

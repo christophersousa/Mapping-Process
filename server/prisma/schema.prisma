@@ -58,9 +58,9 @@ model Subprocess {
   Responsible      Responsible[]
   created_at       DateTime      @default(now())
   Area             Area?         @relation(fields: [id_area], references: [id])
-  Process          Process?      @relation(fields: [id_process], references: [id])
+  Process          Process?      @relation(fields: [id_process], references: [id], onUpdate: Cascade, onDelete: Cascade)
   Subprocess       Subprocess[]  @relation("subprocess_filho")
-  Subprocess_filho Subprocess?   @relation("subprocess_filho", fields: [subprocessId], references: [id])
+  Subprocess_filho Subprocess?   @relation("subprocess_filho", fields: [subprocessId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   subprocessId     String?
 }
 

@@ -7,6 +7,10 @@ import { RegisterProcess } from "../../components/RegisterProcess"
 import useSubprocess from "../../hooks/useSubprocess"
 import { useSearchParams } from "react-router-dom"
 import useProcess from "../../hooks/useProcess"
+import { passedDate } from "../../util/util"
+import { ToastContainer, toast } from "react-toastify"
+import Popup from "../../components/Popup"
+
 
 
 export function Process(){
@@ -14,13 +18,14 @@ export function Process(){
   const [modalIsOpen, setIsOpen] = useState<boolean>(false)
   const [modalUpdateIsOpen, setUpdateIsOpen] = useState<boolean>(false)
   const [params, setParams] = useState<string|null>()
-  const {process, getSubprocessId} = useContext(Context)
-  const{handleRegisterSubprocess, handleUpdateSubprocess} = useSubprocess()
-  const {handleUpdateProcess} = useProcess()
+  const [showModal, setShowModal] = useState(false);
+
+  const {process, getSubprocessId, getProcessId} = useContext(Context)
+  const{handleRegisterSubprocess, handleUpdateSubprocess, deleteSubprocess} = useSubprocess()
+  const {handleUpdateProcess, deleteProcess} = useProcess()
   const [searchParams] = useSearchParams()
 
-  console.log(params)
-
+  //Click in card of subprocess
   async function handleClick(id: string){
     try {
      await getSubprocessId(id, 'subprocess')
@@ -29,14 +34,26 @@ export function Process(){
     }
   }
 
+  //set value the state read process
   function readGetProcess(){
     setReadProcess(process)
   }
 
-  function passedDate(date: string){
-    return new Date(date).toLocaleDateString('BRL', {
-      day: 'numeric', month: 'short', year: 'numeric'
-    })
+  async function handleDelete(id:string){
+    if(params == 'process'){
+      try {
+        deleteProcess(id)
+      } catch (error) {
+        alert(error)
+      }
+    }else{
+      try {
+        deleteSubprocess(id)
+        alert('sucess')
+      } catch (error) {
+        alert('error')
+      }
+    }
   }
 
   // Function Open modal
@@ -51,6 +68,7 @@ export function Process(){
   // Function close modal
   function closeModal() {
     setIsOpen(false);
+    // getProcessId(readProcess?.id ?? '', params ?? '')
   }
   function closeUpdateModal() {
     setUpdateIsOpen(false);
@@ -58,19 +76,26 @@ export function Process(){
 
   useEffect(()=>{
     readGetProcess()
-    setParams(searchParams.get('title'))
-  },[process])
+    setParams(searchParams.get('title')) 
+  },[])
 
   return(
     <div className="flex">
       {/* List process */}
       <div className="flex flex-col items-center h-screen w-screen gap-6 pt-14 overflow-y-scroll scrollbar-hide relative">
           <span 
-            className=" absolute right-5 text-xl cursor-pointer" 
+            className=" absolute right-12 text-xl cursor-pointer" 
             title="Edit"
             onClick={()=>openModalUpdate()}
             >
               📝
+            </span>
+            <span 
+            className=" absolute right-5 text-xl cursor-pointer" 
+            title="delete"
+            onClick={()=>setShowModal(true)}
+            >
+              🗑️
             </span>
           <div className="flex flex-col items-center gap-2 w-1/2">
               <h1 className="font-bold text-center text-violet-500 text-4xl">{readProcess?.name}</h1>              
@@ -118,8 +143,17 @@ export function Process(){
               </div>
             </div>
           </div>
-          
       </div>
+      
+      <Popup
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleClickPopup={()=>handleDelete(readProcess?.id || '')}
+      />
+
+      
+        {/* Same as */}
+
       {/* Menu */}
         <Menu
           title={readProcess?.name || ''}

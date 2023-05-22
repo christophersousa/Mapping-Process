@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { PropsSendDataProcess } from "../interfaces/Process";
 import api from "../lib/api";
 import { capitalize } from "../util/util";
 
 export default function useProcess(){
+
+  const navigate = useNavigate()
+
   async function getProcess(){
     try {
       const response = await api.get('/process', {
@@ -79,5 +83,21 @@ export default function useProcess(){
       }
   }
 
-  return {getProcess, getProcessById, handleRegisterProcess, handleUpdateProcess}
+  async function deleteProcess(id:string){
+    try {
+      const response = await api.delete(`/process/${id}`, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': true,
+      }
+      });
+
+      navigate('/home')
+
+    } catch (error) {
+      throw new Error("email or password are incorrect.");
+    }
+  }
+
+  return {getProcess, getProcessById, handleRegisterProcess, handleUpdateProcess, deleteProcess}
 }

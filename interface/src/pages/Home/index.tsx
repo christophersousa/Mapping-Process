@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Context } from "../../context/authContext"
 
 import useProcess from "../../hooks/useProcess";
@@ -15,10 +15,13 @@ const menu_label = {
 
 export function Home(){
   const [process, setProcess] = useState<PropsProcess[]>([])
+  const [nameSearch, setNameSearch] = useState<string>('');
   const {getProcessId} = useContext(Context)
   const {getProcess, handleRegisterProcess} = useProcess()
 
   const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+
+  const ref = useRef<HTMLInputElement | null>()
 
   // Function Open modal
   function openModal() {
@@ -29,6 +32,17 @@ export function Home(){
   function closeModal() {
     setIsOpen(false);
   }
+
+  const handleInputChange = (event:any) => {
+    setNameSearch(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const resultSearch = process.filter((processo) =>
+      processo.name.toLowerCase().includes(nameSearch.toLowerCase())
+    );
+    setProcess(resultSearch);
+  };
 
 
   async function handleClick(id: string){
@@ -49,6 +63,12 @@ export function Home(){
     }
     
   }
+
+  useEffect(() => {
+    if(!modalIsOpen){
+      getData()
+    }
+  }, [modalIsOpen])
 
   useEffect(()=>{
     getData()
@@ -76,6 +96,8 @@ export function Home(){
                       name="search"
                       className="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-indigo-600"
                       placeholder="Search process"
+                      value={nameSearch} 
+                      onChange={handleInputChange}
                     />
                     <label
                       htmlFor="search"
@@ -90,6 +112,7 @@ export function Home(){
                     text-center block focus:outline-none focus:ring 
                     focus:ring-offset-2 focus:ring-indigo-500 
                     focus:ring-opacity-80"
+                    onClick={handleSearch}
                   >
                     Search
                   </button>

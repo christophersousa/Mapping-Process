@@ -181,6 +181,9 @@ export async function subprocessRoutes(app:FastifyInstance){
           }
         }
       }
+    }).catch(()=>{
+      res.code(404)
+      throw new Error("Process not found")
     })
 
     return subprocess
@@ -188,7 +191,7 @@ export async function subprocessRoutes(app:FastifyInstance){
   })
 
   //UPDATE SUBPROCESS
-  app.put('/subprocess/:id', async (req) => {
+  app.put('/subprocess/:id', async (req, res) => {
     console.log(req.body)
     await req.jwtVerify()
     const bodySchema = z.object({
@@ -247,11 +250,14 @@ export async function subprocessRoutes(app:FastifyInstance){
         }
 
       }
+    }).catch(()=>{
+      res.code(404)
+      throw new Error("Process not found")
     })
   })
 
   //DELETE SUBPROCESS
-  app.delete('/subprocess/:id', async (req)=>{
+  app.delete('/subprocess/:id', async (req, res)=>{
 
     const paramsSchema = z.object({
       id: z.string().uuid(),
@@ -262,6 +268,9 @@ export async function subprocessRoutes(app:FastifyInstance){
       where:{
         id,
       }
+    }).catch(()=>{
+      res.code(404)
+      throw new Error("Process not found")
     })
   })
 }

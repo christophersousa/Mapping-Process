@@ -6,3 +6,9 @@ export function capitalize(text:string):string {
   }
   return text
 }
+
+export  function passedDate(date: string){
+  return new Date(date).toLocaleDateString('BRL', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  })
+}
