@@ -21,7 +21,7 @@ export function Process(){
   const [showModal, setShowModal] = useState(false);
 
   const {process, getSubprocessId} = useContext(Context)
-  const{handleRegisterSubprocess, handleUpdateSubprocess, deleteSubprocess} = useSubprocess()
+  const{handleRegisterSubprocess, handleUpdateSubprocess, deleteSubprocess, getSubprocessById} = useSubprocess()
   const {handleUpdateProcess, deleteProcess, getProcessById} = useProcess()
   const [searchParams] = useSearchParams()
 
@@ -76,11 +76,16 @@ export function Process(){
 
   useEffect( () => {
     if(!modalIsOpen){
-      const response = getProcessById(readProcess?.id ?? '' ).then((process) =>{
-        console.log(response)
-        setReadProcess(process)
-      })
-    }
+      if(params == 'process'){
+        const response = getProcessById(readProcess?.id ?? '' ).then((process) =>{
+          setReadProcess(process)
+        })
+      }
+      }else{
+        const response = getSubprocessById(readProcess?.id ?? '' ).then((process) =>{
+          setReadProcess(process)
+        })
+      }
   },[modalIsOpen])
 
   useEffect(()=>{
