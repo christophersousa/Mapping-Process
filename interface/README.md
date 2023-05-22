@@ -1,6 +1,6 @@
 # Mapping Process platform interface
 
-## About Server
+## About Interface
 
 This application is responsible for demonstrating the user interface in a practical and effective way, so that the user feels at ease and without the need for a great knowledge of technology.
 
