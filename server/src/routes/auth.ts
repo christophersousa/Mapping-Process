@@ -24,14 +24,12 @@ export async function authRoutes(app:FastifyInstance) {
       throw new Error("User not found")
     })
 
-    console.log(password)
-
     const passwordMatch = await bcrypt.compare(password, user.password );
     if(!passwordMatch) {
       res.code(401)
       return new Error('Incorrect password')
     }
-    console.log(user)
+
     const token = app.jwt.sign(
       {
         name: user.name,

@@ -192,7 +192,6 @@ export async function subprocessRoutes(app:FastifyInstance){
 
   //UPDATE SUBPROCESS
   app.put('/subprocess/:id', async (req, res) => {
-    console.log(req.body)
     await req.jwtVerify()
     const bodySchema = z.object({
       name: z.string(),

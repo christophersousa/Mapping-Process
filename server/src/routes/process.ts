@@ -97,7 +97,6 @@ export async function processRoutes(app:FastifyInstance){
 
   //GET PROCESSS BY ID
   app.get('/process/:id', async (req, res)=>{
-    console.log(req)
     await req.jwtVerify()
 
     const {sub} = req.user
