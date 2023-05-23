@@ -14,7 +14,7 @@ This application is responsible for managing the entire backend of the Process M
 - Docker (PostgreSQL)
 
 ## Diagram
-![Alt Diagram](image ".asserts/Mapping-process-diagram.png")
+<img src="https://github.com/christophersousa/Mapping-Process/blob/main/server/asserts/Mapping-process-diagram.png" width="800"/>
 
 
 ## Why NodeJs ?
