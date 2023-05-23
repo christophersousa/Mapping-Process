@@ -80,7 +80,8 @@ export function Process(){
           setReadProcess(process)
         })
       }
-      }else if(searchParams.get('title') == 'subprocess'){
+      }
+      if(searchParams.get('title') == 'subprocess'){
         const response = getSubprocessById(readProcess?.id ?? '' ).then((process) =>{
           setReadProcess(process)
         })
@@ -141,6 +142,7 @@ export function Process(){
                 
               </div>
             </div>
+            
 
             <div className="flex flex-col gap-4">
               <h1 className="font-bold text-xl">Subprocess:</h1>

@@ -21,6 +21,7 @@ export function RegisterProcess({modalIsOpen, closeModal, resgisterProcess, tag,
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Modal de exemplo"
+        ariaHideApp={false}
       >
         <div className="flex flex-col items-center gap-2 pt-4">
             <button className='absolute right-4 top-4' onClick={closeModal}>✖️</button>
